@@ -1,0 +1,4 @@
+**
+!proxy_scraper_checker/**/*.py
+!pyproject.toml
+!uv.lock
