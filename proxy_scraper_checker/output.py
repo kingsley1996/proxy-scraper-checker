@@ -85,6 +85,13 @@ async def save_proxies(*, settings: Settings, storage: ProxyStorage) -> None:
             (k, sorted(v, key=settings.sorting_key))
             for k, v in storage.get_grouped().items()
         )
+
+        # Thêm đếm proxy working
+        proxy_count = {"http": 0, "socks4": 0, "socks5": 0}
+        for proxy in sorted_proxies:
+            if proxy.protocol.name.lower() in proxy_count:
+                proxy_count[proxy.protocol.name.lower()] += 1
+        
         for folder, anonymous_only in (
             (settings.output_path / "proxies", False),
             (settings.output_path / "proxies_anonymous", True),
@@ -123,3 +130,12 @@ async def save_proxies(*, settings: Settings, storage: ProxyStorage) -> None:
             "Proxies have been saved to %s",
             await asyncio.to_thread(settings.output_path.absolute),
         )
+
+    # Tạo thông điệp commit
+    commit_message = (
+        f"Updated proxies: HTTP={proxy_count['http']}, "
+        f"SOCKS4={proxy_count['socks4']}, SOCKS5={proxy_count['socks5']}"
+    )
+    # Ghi commit_message vào tệp
+    with open("commit_message.txt", "w") as file:
+        file.write(commit_message)
