@@ -10,7 +10,7 @@ source_timeout = 15
 # If the source has more proxies than this value,
 # then the source has a huge number of low-quality proxies and can be ignored.
 # Set to 0 to disable this limit.
-proxies_per_source_limit = 100000
+proxies_per_source_limit = 400000
 
 # Maximum concurrent connections.
 # Don't be in a hurry to set high values.
